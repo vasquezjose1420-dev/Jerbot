@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Arce Jeriel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/09/19/23/20250919235512-KLQYYOCK.js" defer></script>
+    <link rel="icon" href="img/logoventana.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fefefe;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #ffffff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c2c2c;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px; /* Ajusta según tu preferencia */
+            width: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            /* Clase para controlar el texto del logo */
+            white-space: nowrap; /* Evita que el texto se parta en varias líneas */
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #f5d842;
+        }
+
+        /* Botón de hamburguesa (Hamburguer menu button) */
+        .menu-toggle {
+            display: none; /* Ocultar por defecto en escritorio */
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1001; /* Asegura que esté por encima del menú desplegable */
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 100%;
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Animación del botón de hamburguesa cuando está activo */
+        .menu-toggle.is-active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.is-active .bar:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .menu-toggle.is-active .bar:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Banner debajo del navbar */
+        .banner-image {
+            margin-top: 80px; /* Altura del navbar */
+            overflow: hidden;
+        }
+
+        .banner-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #fff3a0 0%, #ffffff 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #f5d842;
+            color: #2c2c2c;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 216, 66, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+            border-top: 4px solid #f5d842;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #f5d842;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Image Placeholder */
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem;
+        }
+
+        .info-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #f5d842;
+        }
+
+        .info-item h4 {
+            color: #2c2c2c;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Values Section */
+        .values-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .value-item {
+            background: #f5d842;
+            color: #2c2c2c;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            background: #2c2c2c;
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 0 2rem;
+            text-align: center;
+        }
+
+        .contact-item {
+            margin-bottom: 1rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-item strong {
+            color: #f5d842;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c2c2c;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 80px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                justify-content: space-between;
+            }
+            
+            .logo-text {
+                display: none; /* Oculta el texto del logo en móviles */
+            }
+
+            .nav-menu {
+                display: none; /* Oculta el menú por defecto */
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 80px; /* Altura de tu navbar */
+                left: 0;
+                background: #ffffff;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                padding: 1rem 0;
+                z-index: 999;
+                text-align: center;
+            }
+
+            .nav-menu.active {
+                display: flex; /* Muestra el menú cuando tiene la clase 'active' */
+            }
+            
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+            
+            .menu-toggle {
+                display: flex; /* Muestra el botón de hamburguesa en móvil */
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-list {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Colegio Arce Jeriel" class="logo-img">
+                <span class="logo-text">Colegio Arce Jeriel</span>
+            </div>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#educacion">Educación</a></li>
+                <li><a href="#actividades">Actividades</a></li>
+                <li><a href="#admisiones">Admisiones</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="banner-image">
+        <img src="img/baner.png" alt="Banner Colegio Arce Jeriel" style="height: 50%;">
+    </section>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Formando el Futuro con Excelencia</h1>
+            <p>Más de 25 años educando con valores, conocimientos y destrezas competentes desde 1997</p>
+            <a href="#admisiones" class="cta-button">Conoce Más</a>
+        </div>
+    </section>
+
+    <section id="nosotros" class="section">
+        <div class="section-header">
+            <h2>Nuestra Institución</h2>
+            <p>Centro educativo privado comprometido con la formación integral de nuestros estudiantes</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <h3>Misión</h3>
+                <p>Somos una institución educativa formando estudiantes con conocimientos académicos competentes, destrezas, actitudes y valores.</p>
+            </div>
+
+            <div class="card">
+                <h3>Visión</h3>
+                <p>Ser una institución educativa en la cual la formación académica sea un medio de preparación cada vez más comprometida con la sociedad.</p>
+            </div>
+
+            <div class="card">
+                <h3>Excelencia Académica</h3>
+                <p>Nuestros estudiantes han obtenido excelentes resultados en los exámenes estandarizados a nivel nacional, gracias a nuestro personal altamente calificado.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <h2>Nuestros Valores</h2>
+            <p>Los pilares que guían nuestra labor educativa</p>
+        </div>
+        
+        <div class="values-list">
+            <div class="value-item">❤️ Amor</div>
+            <div class="value-item">🤝 Tolerancia</div>
+            <div class="value-item">🙏 Respeto</div>
+            <div class="value-item">🇸🇻 Patriotismo</div>
+            <div class="value-item">💪 Perseverancia</div>
+        </div>
+    </section>
+
+    <section id="educacion" class="section">
+        <div class="section-header">
+            <h2>Oferta Educativa</h2>
+            <p>Tercer Ciclo y Bachillerato, formación integral con tecnología moderna</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <h4>📖 Tercer Ciclo</h4>
+                <p>7°, 8° y 9° grado con preparación hacia la especialización</p>
+            </div>
+            <div class="info-item">
+                <h4>🎓 Bachillerato General</h4>
+                <p>Inglés, Informática, Servicios Turísticos, Administrativo Contable (2 años)</p>
+            </div>
+            <div class="info-item">
+                <h4>⚕️ BTP en Salud</h4>
+                <p>Bachillerato Técnico Profesional en Salud (3 años)</p>
+            </div>
+            <div class="info-item">
+                <h4>🔧 Mantenimiento Automotriz</h4>
+                <p>Bachillerato Técnico en Mantenimiento Automotriz (3 años)</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="actividades" class="section">
+        <div class="section-header">
+            <h2>Actividades Extracurriculares</h2>
+            <p>Desarrollo integral a través del deporte, arte y cultura</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <img src="img/deporte.jpg" alt="Foto Deportes" class="card-image">
+                <div class="card-icon">🏀</div>
+                <h3>Deportes</h3>
+                <p><strong>Campeones Jr. NBA Estudiantil 2024</strong><br>
+                MVP: Alejandro Rivera<br>
+                Destacados: Nelson Quintanilla, Fernando Molina</p>
+            </div>
+
+            <div class="card">
+                <img src="img/banda.jpg" alt="Foto Banda Musical" class="card-image">
+                <div class="card-icon">🎺</div>
+                <h3>Banda Musical</h3>
+                <p><strong>1er lugar internacional Guatemala 2023</strong><br>
+                Director: Prof. Carlos Amílcar Peñate<br>
+                Instrumentos: Trompeta, saxofón, trombón, clarinete y más</p>
+            </div>
+
+            <div class="card">
+                <img src="img/cultura.jpg" alt="Foto Danza y Cultura" class="card-image">
+                <div class="card-icon">💃</div>
+                <h3>Arte y Cultura</h3>
+                <p>Danza Folklórica, Marimba, Cachiporristas<br>
+                Participación en desfiles patrios y eventos culturales</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="admisiones" class="section">
+        <div class="section-header">
+            <h2>Admisiones</h2>
+            <p>Únete a nuestra comunidad educativa</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <h4>📋 Proceso de Matrícula</h4>
+                <p>Matrículas anuales disponibles. Información específica a través de nuestras redes sociales y contacto directo.</p>
+            </div>
+            <div class="info-item">
+                <h4>🏫 Modalidad y Horarios</h4>
+                <p>Jornada matutina con calendario nacional. Infraestructura adecuada para el aprendizaje.</p>
+            </div>
+            <div class="info-item">
+                <h4>📱 Tecnología Educativa</h4>
+                <p>Plataforma virtual Moodle, app móvil "Colegio Arce Jeriel" para comunicación directa.</p>
+            </div>
+            <div class="info-item">
+                <h4>💳 Pagos</h4>
+                <p>Pagos disponibles desde el banco o nuestra aplicación móvil. Atención durante los primeros 16 días del mes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="section">
+        <div class="section-header">
+            <h2>Contacto y Ubicación</h2>
+            <p>Estamos aquí para atenderte</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <strong>📍 Dirección:</strong><br>
+                Calle Emeterio Ruano #17, Barrio El Rosario<br>
+                Ciudad Arce, La Libertad, El Salvador
+            </div>
+            <div class="contact-item">
+                <strong>📞 Teléfono:</strong> 2315-3636
+            </div>
+            <div class="contact-item">
+                <strong>📧 Correos:</strong><br>
+                jeriel.edu.sv@gmail.com<br>
+                lausalaz1811@hotmail.com
+            </div>
+            <div class="contact-item">
+                <strong>🌐 Sitio Web:</strong> www.jeriel.edu.sv<br>
+                <strong>📱 Plataforma Virtual:</strong> jeriel.edu.sv/aula_virtual/
+            </div>
+            <div class="contact-item">
+                <strong>📱 Redes Sociales:</strong><br>
+                Facebook: Colegio Arce Jeriel<br>
+                Instagram: @colegio_jeriel<br>
+                Twitter: @jerielistas
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Colegio Arce Jeriel - Formando el futuro desde 1997</p>
+        <p>Ciudad Arce, El Salvador 🇸🇻 | Código Institucional: 20179</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Opcional: Cerrar el menú al hacer clic en un enlace (para mejor UX)
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('is-active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
